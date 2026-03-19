@@ -7,23 +7,37 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
+import { notFound } from 'next/navigation'
 
-export const dynamic = 'force-static'
 export const revalidate = 600
 
-export default async function Page() {
+type Args = {
+  params: Promise<{
+    tenant: string
+    locale: string
+    pageNumber: string
+  }>
+}
+
+export default async function Page({ params: paramsPromise }: Args) {
+  const { tenant, locale, pageNumber } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
+
+  const sanitizedPageNumber = Number(pageNumber)
+
+  if (!Number.isInteger(sanitizedPageNumber)) notFound()
 
   const posts = await payload.find({
     collection: 'posts',
     depth: 1,
     limit: 12,
+    page: sanitizedPageNumber,
+    locale: locale as 'en' | 'de',
     overrideAccess: false,
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      meta: true,
+    where: {
+      'tenant.slug': {
+        equals: tenant,
+      },
     },
   })
 
@@ -48,7 +62,7 @@ export default async function Page() {
       <CollectionArchive posts={posts.docs} />
 
       <div className="container">
-        {posts.totalPages > 1 && posts.page && (
+        {posts?.page && posts?.totalPages > 1 && (
           <Pagination page={posts.page} totalPages={posts.totalPages} />
         )}
       </div>
@@ -56,8 +70,9 @@ export default async function Page() {
   )
 }
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { pageNumber } = await paramsPromise
   return {
-    title: `Payload Website Template Posts`,
+    title: `Payload Website Template Posts Page ${pageNumber || ''}`,
   }
 }

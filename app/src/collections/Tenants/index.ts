@@ -15,7 +15,6 @@ export const Tenants: CollectionConfig = {
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
   },
-  auth: true,
   fields: [
     {
       name: 'name',
