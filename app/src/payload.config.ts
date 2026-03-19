@@ -2,6 +2,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
+import type { Locale } from 'payload'
 import { fileURLToPath } from 'url'
 import { en } from '@payloadcms/translations/languages/en'
 import { de } from '@payloadcms/translations/languages/de'
@@ -20,19 +21,21 @@ import { getServerSideURL } from './utilities/getURL'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+const locales: Locale[] = [
+  {
+    label: 'English',
+    code: 'en',
+  },
+  {
+    label: 'German',
+    code: 'de',
+  },
+]
 
 export default buildConfig({
   localization: {
-    locales: [
-      {
-        label: 'English',
-        code: 'en',
-      },
-      {
-        label: 'German',
-        code: 'de',
-      }
-    ]
+    defaultLocale: 'en',
+    locales,
   },
   i18n: {
     supportedLanguages: { en, de },

@@ -435,6 +435,7 @@ export interface Category {
 export interface User {
   id: number;
   name?: string | null;
+  roles?: ('super-admin' | 'tenant-admin')[] | null;
   tenants?:
     | {
         tenant: number | Tenant;
@@ -1365,6 +1366,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  roles?: T;
   tenants?:
     | T
     | {

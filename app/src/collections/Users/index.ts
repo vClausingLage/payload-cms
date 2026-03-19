@@ -21,6 +21,15 @@ export const Users: CollectionConfig = {
       name: 'name',
       type: 'text',
     },
+    {
+      name: 'roles',
+      type: 'select',
+      hasMany: true,
+      options: [
+        { label: 'Super Admin', value: 'super-admin' },
+        { label: 'Tenant Admin', value: 'tenant-admin' },
+      ],
+    }
   ],
   timestamps: true,
 }
