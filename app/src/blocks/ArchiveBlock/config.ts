@@ -24,6 +24,7 @@ export const Archive: Block = {
           ]
         },
       }),
+      localized: true,
       label: 'Intro Content',
     },
     {

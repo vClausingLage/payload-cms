@@ -36,6 +36,16 @@ export const Pages: CollectionConfig<'pages'> = {
     title: true,
     slug: true,
   },
+  labels: {
+    singular: {
+      de: 'Seite',
+      en: 'Page',
+    },
+    plural: {
+      de: 'Seiten',
+      en: 'Pages',
+    },
+  },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {

@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
+import { de } from '@payloadcms/translations/languages/de'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',
@@ -10,6 +11,16 @@ export const Tenants: CollectionConfig = {
     delete: authenticated,
     read: authenticated,
     update: authenticated,
+  },
+  labels: {
+    singular: {
+      de: 'Mandant',
+      en: 'Tenant',
+    },
+    plural: {
+      de: 'Mandanten',
+      en: 'Tenants',
+    },
   },
   admin: {
     defaultColumns: ['name', 'domain'],
