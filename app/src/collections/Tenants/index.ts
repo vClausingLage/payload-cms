@@ -12,19 +12,13 @@ export const Tenants: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    defaultColumns: ['name', 'email'],
+    defaultColumns: ['name', 'domain'],
     useAsTitle: 'name',
   },
   fields: [
     {
       name: 'name',
       type: 'text',
-    },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
     },
     {
       name:'domain',

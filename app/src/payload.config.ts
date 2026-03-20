@@ -2,7 +2,6 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
-import type { Locale } from 'payload'
 import { fileURLToPath } from 'url'
 import { en } from '@payloadcms/translations/languages/en'
 import { de } from '@payloadcms/translations/languages/de'
@@ -14,31 +13,32 @@ import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
-import { Tenants } from './collections/Tenants'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-const locales: Locale[] = [
-  {
-    label: 'English',
-    code: 'en',
-  },
-  {
-    label: 'German',
-    code: 'de',
-  },
-]
 
 export default buildConfig({
-  localization: {
-    defaultLocale: 'en',
-    locales,
-  },
   i18n: {
     supportedLanguages: { en, de },
+    translations: {
+      // TODO
+    }
+  },
+  localization: {
+    locales: [
+      {
+        label: 'English',
+        code: 'en',
+      },
+      {
+        label: 'German',
+        code: 'de'
+      },
+    ],
+    defaultLocale: 'de',
   },
   admin: {
     components: {
@@ -83,7 +83,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Tenants],
+  collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,

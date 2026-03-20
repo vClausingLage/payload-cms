@@ -7,37 +7,30 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
+import { notFound } from 'next/navigation'
 
 export const revalidate = 600
 
 type Args = {
   params: Promise<{
-    tenant: string
-    locale: string
+    pageNumber: string
   }>
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
-  const { tenant, locale } = await paramsPromise
+  const { pageNumber } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
+
+  const sanitizedPageNumber = Number(pageNumber)
+
+  if (!Number.isInteger(sanitizedPageNumber)) notFound()
 
   const posts = await payload.find({
     collection: 'posts',
     depth: 1,
     limit: 12,
-    locale: locale as 'en' | 'de',
+    page: sanitizedPageNumber,
     overrideAccess: false,
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      meta: true,
-    },
-    where: {
-      'tenant.slug': {
-        equals: tenant,
-      },
-    },
   })
 
   return (
@@ -61,7 +54,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <CollectionArchive posts={posts.docs} />
 
       <div className="container">
-        {posts.totalPages > 1 && posts.page && (
+        {posts?.page && posts?.totalPages > 1 && (
           <Pagination page={posts.page} totalPages={posts.totalPages} />
         )}
       </div>
@@ -69,8 +62,27 @@ export default async function Page({ params: paramsPromise }: Args) {
   )
 }
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { pageNumber } = await paramsPromise
   return {
-    title: `Payload Website Template Posts`,
+    title: `Payload Website Template Posts Page ${pageNumber || ''}`,
   }
+}
+
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise })
+  const { totalDocs } = await payload.count({
+    collection: 'posts',
+    overrideAccess: false,
+  })
+
+  const totalPages = Math.ceil(totalDocs / 10)
+
+  const pages: { pageNumber: string }[] = []
+
+  for (let i = 1; i <= totalPages; i++) {
+    pages.push({ pageNumber: String(i) })
+  }
+
+  return pages
 }

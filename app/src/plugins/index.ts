@@ -6,11 +6,10 @@ import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
-import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
-import type { Config } from '@/payload-types'
+import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -91,12 +90,9 @@ export const plugins: Plugin[] = [
       },
     },
   }),
-  multiTenantPlugin<Config>({
-    collections: {
-      pages: {},
-    },
-    userHasAccessToAllTenants: (user) => {
+  multiTenantPlugin({
+  userHasAccessToAllTenants: (user) => {
       return Array.isArray(user.roles) && user.roles.includes('super-admin')
     }
-  }),
+})
 ]
