@@ -91,8 +91,13 @@ export const plugins: Plugin[] = [
     },
   }),
   multiTenantPlugin({
-  userHasAccessToAllTenants: (user) => {
+    collections: {
+      pages: {
+        // TODO
+      }
+    },
+    userHasAccessToAllTenants: (user) => {
       return Array.isArray(user.roles) && user.roles.includes('super-admin')
     }
-})
+  })
 ]
