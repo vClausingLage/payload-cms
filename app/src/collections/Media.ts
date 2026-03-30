@@ -23,16 +23,6 @@ export const Media: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
-  labels: {
-    singular: {
-      de: 'Medien',
-      en: 'Media',
-    },
-    plural: {
-      de: 'Medien',
-      en: 'Media',
-    }
-  },
   fields: [
     {
       name: 'alt',

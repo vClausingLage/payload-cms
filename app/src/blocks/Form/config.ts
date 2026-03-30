@@ -38,7 +38,6 @@ export const FormBlock: Block = {
           ]
         },
       }),
-      localized: true,
       label: 'Intro Content',
     },
   ],

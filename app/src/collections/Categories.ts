@@ -12,16 +12,6 @@ export const Categories: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
-  labels: {
-    singular: {
-      de: 'Kategorie',
-      en: 'Category',
-    },
-    plural: {
-      de: 'Kategorien',
-      en: 'Categories',
-    },
-  },
   admin: {
     useAsTitle: 'title',
   },

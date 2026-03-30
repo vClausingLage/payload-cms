@@ -8,7 +8,6 @@ import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { hero } from '@/heros/config'
-import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
@@ -34,17 +33,6 @@ export const Pages: CollectionConfig<'pages'> = {
   // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'pages'>
   defaultPopulate: {
     title: true,
-    slug: true,
-  },
-  labels: {
-    singular: {
-      de: 'Seite',
-      en: 'Page',
-    },
-    plural: {
-      de: 'Seiten',
-      en: 'Pages',
-    },
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
@@ -68,6 +56,7 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       name: 'title',
       type: 'text',
+      localized: true,
       required: true,
     },
     {
@@ -83,6 +72,7 @@ export const Pages: CollectionConfig<'pages'> = {
               name: 'layout',
               type: 'blocks',
               blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
+              localized: true,
               required: true,
               admin: {
                 initCollapsed: true,
@@ -127,7 +117,6 @@ export const Pages: CollectionConfig<'pages'> = {
         position: 'sidebar',
       },
     },
-    slugField(),
   ],
   hooks: {
     afterChange: [revalidatePage],

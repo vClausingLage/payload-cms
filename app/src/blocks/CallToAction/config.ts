@@ -26,7 +26,6 @@ export const CallToAction: Block = {
           ]
         },
       }),
-      localized: true,
       label: false,
     },
     linkGroup({

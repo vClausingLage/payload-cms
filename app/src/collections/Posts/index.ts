@@ -97,7 +97,6 @@ export const Posts: CollectionConfig<'posts'> = {
                 },
               }),
               label: false,
-              localized: true,
               required: true,
             },
           ],

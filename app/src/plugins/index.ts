@@ -9,7 +9,6 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
-import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -90,14 +89,4 @@ export const plugins: Plugin[] = [
       },
     },
   }),
-  multiTenantPlugin({
-    collections: {
-      pages: {
-        // TODO
-      }
-    },
-    userHasAccessToAllTenants: (user) => {
-      return Array.isArray(user.roles) && user.roles.includes('super-admin')
-    }
-  })
 ]

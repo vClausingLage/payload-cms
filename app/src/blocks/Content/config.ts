@@ -13,7 +13,7 @@ const columnFields: Field[] = [
   {
     name: 'size',
     type: 'select',
-    defaultValue: 'full',
+    defaultValue: 'oneThird',
     options: [
       {
         label: 'One Third',
@@ -47,7 +47,6 @@ const columnFields: Field[] = [
       },
     }),
     label: false,
-    localized: true,
   },
   {
     name: 'enableLink',
